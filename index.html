@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 核心：适配手机端的viewport设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>闪购新人福利 - 免单超级补贴</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* 顶部横幅样式 */
+        .top-banner {
+            background: linear-gradient(to right, #ff4e50, #fc913a);
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='1' fill='white' opacity='0.2'/%3E%3C/svg%3E");
+            background-size: 20px;
+        }
+
+        /* 红包区域样式 */
+        .red-packet-area {
+            background-color: white;
+            padding: 15px 10px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .red-packet-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .red-packet-list {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .red-packet-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-right: 1px solid #eee;
+        }
+
+        .red-packet-item:last-child {
+            border-right: none;
+        }
+
+        .red-packet-amount {
+            font-size: 28px;
+            color: #ff4e50;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .red-packet-desc {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        .red-packet-note {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* 免单卡区域样式 */
+        .free-card-area {
+            background-color: white;
+            padding: 15px 10px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .free-card-title {
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .free-card-subtitle {
+            font-size: 22px;
+            color: #ff4e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .free-card-list {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .free-card-item {
+            flex: 1;
+            margin: 0 5px;
+            border-radius: 8px;
+            padding: 15px 10px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 自己喝卡片样式 */
+        .card-self {
+            background: linear-gradient(to bottom, #ff9f00, #ff6700);
+        }
+
+        /* 送朋友卡片样式 */
+        .card-friend {
+            background: linear-gradient(to bottom, #9c27b0, #673ab7);
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(255,255,255,0.3);
+            padding: 3px 8px;
+            font-size: 12px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .card-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-img {
+            width: 60px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        /* 按钮区域样式 */
+        .btn-area {
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .copy-btn {
+            background: linear-gradient(to right, #ff3e3e, #ff6b00);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 0;
+            width: 90%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 62, 62, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-btn::after {
+            content: "";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+        }
+
+        /* 点击反馈效果 */
+        .copy-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(255, 62, 62, 0.3);
+        }
+
+        /* 适配小屏手机 */
+        @media (max-width: 375px) {
+            .red-packet-amount {
+                font-size: 24px;
+            }
+            .free-card-subtitle {
+                font-size: 18px;
+            }
+            .card-amount {
+                font-size: 20px;
+            }
+            .copy-btn {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部横幅 -->
+    <div class="top-banner">
+        闪购新人福利 🎉🍟 免单超级补贴
+    </div>
+
+    <!-- 红包区域 -->
+    <div class="red-packet-area">
+        <div class="red-packet-title">送你惊喜外卖红包</div>
+        <div class="red-packet-list">
+            <div class="red-packet-item">
+                <div class="red-packet-amount">¥18</div>
+                <div class="red-packet-desc">新人首单红包<br>无门槛<br>今天23:59到期</div>
+            </div>
+            <div class="red-packet-item">
+                <div class="red-packet-amount">¥15</div>
+                <div class="red-packet-desc">外卖红包<br>满15元可用<br>限部分商家可用</div>
+            </div>
+        </div>
+        <div class="red-packet-note">仅闪购新用户可领首单红包，以实际领取为准</div>
+    </div>
+
+    <!-- 免单卡区域 -->
+    <div class="free-card-area">
+        <div class="free-card-title">淘宝闪购 请你喝奶茶</div>
+        <div class="free-card-subtitle">奶茶免单卡等你来</div>
+        <div class="free-card-list">
+            <div class="free-card-item card-self">
+                <div class="card-tag">自己喝</div>
+                <div class="card-text">免单卡</div>
+                <div class="card-amount">免18元</div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='white'%3E%3Cpath d='M50 20c-10 0-15 8-15 15v20c0 5 3 10 8 10h14c5 0 8-5 8-10V35c0-7-5-15-15-15zm-5 40c-3 0-5-2-5-5v-5c0-3 2-5 5-5s5 2 5 5v5c0 3-2 5-5 5zm10 0c-3 0-5-2-5-5v-5c0-3 2-5 5-5s5 2 5 5v5c0 3-2 5-5 5z'/%3E%3C/svg%3E" class="card-img" alt="奶茶图标">
+            </div>
+            <div class="free-card-item card-friend">
+                <div class="card-tag">送朋友</div>
+                <div class="card-text">请客卡</div>
+                <div class="card-amount">免18元</div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='white'%3E%3Cpath d='M50 20c-10 0-15 8-15 15v20c0 5 3 10 8 10h14c5 0 8-5 8-10V35c0-7-5-15-15-15zm-5 40c-3 0-5-2-5-5v-5c0-3 2-5 5-5s5 2 5 5v5c0 3-2 5-5 5zm10 0c-3 0-5-2-5-5v-5c0-3 2-5 5-5s5 2 5 5v5c0 3-2 5-5 5z'/%3E%3C/svg%3E" class="card-img" alt="奶茶图标">
+            </div>
+        </div>
+    </div>
+
+    <!-- 按钮区域 -->
+    <div class="btn-area">
+        <button class="copy-btn" id="copyBtn">复制口令到淘宝领红包</button>
+    </div>
+
+    <script>
+        // 复制按钮功能实现
+        const copyBtn = document.getElementById('copyBtn');
+        copyBtn.addEventListener('click', async function() {
+            // ========== 此处为预设口令，你可直接修改等号后的内容 ==========
+            const couponCode = "【淘口令】￥le4O5670xAa￥/ HU7405";
+            // ==========================================================
+            
+            try {
+                // 现代浏览器推荐的剪贴板API（兼容性更好）
+                await navigator.clipboard.writeText(couponCode);
+                // 友好提示复制成功
+                alert('口令复制成功！\n复制内容：' + couponCode + '\n快去淘宝粘贴领取吧～');
+            } catch (err) {
+                // 兼容旧版浏览器的备用方案
+                const tempInput = document.createElement('input');
+                tempInput.value = couponCode;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('口令复制成功！\n复制内容：' + couponCode + '\n快去淘宝粘贴领取吧～');
+            }
+        });
+    </script>
+</body>
+</html>
